@@ -1,0 +1,62 @@
+GET http://localhost:8080/api/teacher/index
+Accept: application/json
+Authorization: {{token}}
+
+###
+POST http://localhost:8080/api/teacher/student
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "name": "xp",
+  "number": 201701
+}
+
+###
+POST http://localhost:8080/api/teacher/selectNumber
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "selectNumber": 8
+}
+
+###
+POST http://localhost:8080/api/teacher/ranges
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "ranges": 12
+}
+
+###
+POST http://localhost:8080/api/teacher/password
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "password" : "1314"
+}
+
+###
+POST http://localhost:8080/api/teacher/courses
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "name" :"Web"
+}
+
+###
+POST http://localhost:8080/api/teacherLogin
+Content-Type: application/json
+
+{
+  "number" : "2017",
+  "password": "2017"
+}
+
+
+> {% client.global.set("token", response.headers.valueOf("Authorization")); %}
+###

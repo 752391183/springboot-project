@@ -1,20 +1,30 @@
 package com.example.springbootproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @Entity
-public class DirectionsElective {
+@JsonIgnoreProperties({"studentDirections","teacherDirections"})
+public class Direction implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    private String name;
+    private Float value;//方向的权重
+    @OneToMany(mappedBy = "direction")
+    private List<StudentDirection> studentDirections;
+    @OneToMany(mappedBy = "direction")
+    private List<TeacherDirection> teacherDirections;
 
-    private int id;
-    private String detail;//具体的信息
 
     @Column(columnDefinition = "timestamp default current_timestamp",
             insertable = false,
@@ -25,9 +35,4 @@ public class DirectionsElective {
             insertable = false,
             updatable = false)
     private LocalDateTime updateTime;
-    @ManyToOne
-    private Students students;
-    @ManyToOne
-    private Directions directions;
-
 }

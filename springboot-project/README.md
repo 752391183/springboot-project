@@ -30,13 +30,19 @@
 
 ~~~
 
+
+
 ### 开发的环境
 
 ~~~java~~~
-●idea2019.3
-●git 
+●idea2019.3.3
+●Git 2.24 
 ●springboot 2.2.5
 ●github
+●MySQL 8.0.17
+●Node 12.16
+●Vue 2.2
+●VSCode 1.42
 ~~~
 
 ### 设计的整体思想
@@ -69,12 +75,17 @@
 ### 过程中遇到的问题
 
 ● 将Students表中的主键错写成自增长，当测试时又重新输入了学号，导致异常
+  
+  解决办法：新添加一个number(Integer)属性来存储学号,同时声明学号的唯一约束
 
   @Id
 
-   ~~@GeneratedValue(strategy = GenerationType.IDENTITY)~~
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-   private int id;
+   private Integer id;
+   @Column(unique = true)
+   private Integer number;
+
 
 ● 需增加时间戳属性来使整体更完整
 
@@ -96,43 +107,10 @@ private LocalDateTime updateTime;
 @EnableJpaRepositories(repositoryBaseClass = BaseRepositoryImpl.class)
 ```
 
-
-
-## 老师的指导
-
-~~~java~~~
-●初步的业务逻辑，自己整理，划分，创建业务逻辑组件，业务方法
-
-有的加了注意提示，有的没加
-
-●所有添加的，都得能修改 
-
-●添加教师。直接实例化给定教师对象。用于系统初始化时调用，但仍需抽象。启动时如何初始化数据，比如初始化管理员账号密码后期讨论
-
-●修改密码。
-
-●修改指定教师其他信息。学生数，范围数
-
-●添加毕设方向。名称，不在声明权重，无法限制学生乱选，但互选成功后，教师课查看
-
-●修改毕设方向
-
-●创建课程。包括课程名称，权重
-
-●添加指定课程学生成绩单。为指定课程添加学生，课程id，学生集合；查询学生是否已存在，不存在创建学生，创建关联对象
-
-●修改/重修添加指定课程学生成绩单。整合入上一逻辑？
-
-●添加指定学生。添加已提前敲定的学生，直接占用导师名额；查询学生是否存在
-
-●登录。基于工号，密码登录
-
-●启动互选。提供启动互选功能，按当前权重，拉出指定教师，范围数学生，在控制层保存，互选实际执行实际很短，最多1-2天，未避免反复查询，直接缓存有资格学生到缓存。但一旦修改范围数，权重，必须重修计算加载
-
-●算法，jpql/sql语句太复杂解决不了，直接把所有学生拉出，用java计算，排序
-
-●全部学生排名。按各种权重，计算出学生排名。简单算法，学生每门课程成绩加权，除以课程数，
-
-●指定范围学生排名。范围控制层传入，别在这直接调用教师范围数
+●将所有的OneToMany全部声明为级联（删除）以及即时加载，
+ 方便后期进行删除以及从one端对many端对象的访问
 ~~~
+  cascade = CascadeType.REMOVE,fetch = FetchType.EAGER
+~~~
+
 

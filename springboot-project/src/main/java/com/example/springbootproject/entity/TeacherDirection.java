@@ -1,21 +1,24 @@
 package com.example.springbootproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
 
-@Data
-@NoArgsConstructor
 @Entity
-public class Students {
+@NoArgsConstructor
+@Data
+public class TeacherDirection implements Serializable {
     @Id
-    private int id;
-    private String name;
-
-    private Boolean whetherSelected;//是否被老师选中
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    @ManyToOne
+    private Teacher teacher;
+    @ManyToOne
+    private Direction direction;
 
     @Column(columnDefinition = "timestamp default current_timestamp",
             insertable = false,
@@ -26,14 +29,4 @@ public class Students {
             insertable = false,
             updatable = false)
     private LocalDateTime updateTime;
-    @ManyToOne
-    private Teacher teacher;
-    @OneToMany(mappedBy = "students")
-    private List<Elective> electives ; //学生与课程之间的联系
-
-    @OneToMany(mappedBy = "students")
-    private List<DirectionsElective> directionsElectives;//学生与方向之间的联系
-
-
-
 }
