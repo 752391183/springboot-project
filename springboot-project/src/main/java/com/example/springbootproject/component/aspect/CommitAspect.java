@@ -20,7 +20,7 @@ public class CommitAspect {
     @Around("pointcut()")
     public void Around(ProceedingJoinPoint joinPoint) {
         Object[] obj = joinPoint.getArgs();
-        
+
     }
 
 }
