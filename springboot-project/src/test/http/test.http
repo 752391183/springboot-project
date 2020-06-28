@@ -1,3 +1,24 @@
+POST http://localhost:8080/api/root/teacher
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "number": "201711",
+  "name": "啦啦啦",
+  "password": "123123"
+}
+
+###
+GET http://localhost:8080/api/root/index
+Authorization: {{token}}
+Accept: application/json
+
+###
+GET http://localhost:8080/api/root/teachers
+Authorization: {{token}}
+Accept: application/json
+
+###
 POST http://localhost:8080/api/studentLogin
 Content-Type: application/json
 
