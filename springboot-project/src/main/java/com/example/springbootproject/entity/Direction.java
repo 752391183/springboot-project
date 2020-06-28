@@ -19,7 +19,6 @@ public class Direction implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    private Float value;//方向的权重
     @OneToMany(mappedBy = "direction")
     private List<StudentDirection> studentDirections;
     @OneToMany(mappedBy = "direction")

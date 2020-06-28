@@ -1,3 +1,29 @@
+POST http://localhost:8080/api/studentLogin
+Content-Type: application/json
+
+{
+  "studentNumber": 2017214216
+}
+
+###
+POST http://localhost:8080/api/student/index
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "directions": [1,2,3,4]
+}
+
+###
+PATCH http://localhost:8080/api/student/student
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+ "teacherId": 6
+}
+
+###
 GET http://localhost:8080/api/teacher/index
 Accept: application/json
 Authorization: {{token}}

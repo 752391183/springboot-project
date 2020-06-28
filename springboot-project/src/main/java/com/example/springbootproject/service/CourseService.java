@@ -1,11 +1,7 @@
 package com.example.springbootproject.service;
 
-import com.example.springbootproject.entity.Course;
-import com.example.springbootproject.entity.Direction;
-import com.example.springbootproject.entity.Student;
-import com.example.springbootproject.entity.Teacher;
-import com.example.springbootproject.repository.CourseBaseRepository;
-import com.example.springbootproject.repository.DirectionBaseRepository;
+import com.example.springbootproject.entity.*;
+import com.example.springbootproject.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,8 +15,14 @@ public class CourseService {
     private CourseBaseRepository courseBaseRepository;
     @Autowired
     private DirectionBaseRepository directionBaseRepository;
+    @Autowired
+    private StudentCourseBaseRepository studentCourseBaseRepository;
+    @Autowired
+    private TeacherDirectionBaseRepository teacherDirectionBaseRepository;
+    @Autowired
+    private StudentDirectionBaseRepository studentDirectionBaseRepository;
 
-    //-----------课程的CRD-------
+    //-----------课程的CRUD-------
     public Course addCourse(Course course) {
         return courseBaseRepository.save(course);
     }
@@ -35,15 +37,19 @@ public class CourseService {
     public List<Course> getCourseByName(String name) {
         return courseBaseRepository.seletByName(name).orElse(List.of());
     }
-    //------------------------------
-
-    //获得全部课程
+   public Course updateCourse(Course course,Integer id) {
+        courseBaseRepository.save(course);
+        return course;
+   }
+   //获得全部课程
     public List<Course> listCourses() {
         return courseBaseRepository.findAll();
     }
+    //------------------------------
 
 
-    //--------------方向的CRD-------------
+
+    //--------------方向的CRUD-------------
     public Direction addDirection(Direction direction) {
         return directionBaseRepository.save(direction);
     }
@@ -58,11 +64,61 @@ public class CourseService {
     public List<Direction> getDirectionByName(String name) {
         return directionBaseRepository.selectDirectionByName(name).orElse(List.of());
     }
+    public Direction updateDirection(Direction direction) {
+        directionBaseRepository.save(direction);
+        return direction;
+    }
+    //获得全部方向
+    public List<Direction> listDirections() {
+        return directionBaseRepository.findAll();
+    }
    //-----------------------------------------
 
-   //获得全部方向
-   public List<Direction> listDirections() {
-        return directionBaseRepository.findAll();
-   }
+    //-------------StudentCourse------------------------
+    public StudentCourse addStudentCourse(StudentCourse studentCourse) {
+        return studentCourseBaseRepository.save(studentCourse);
+    }
+    public void deleteStudentCourse(Integer id) {
+        studentCourseBaseRepository.deleteById(id);
+    }
+    public StudentCourse getStudentCourseById(Integer id) {
+        return studentCourseBaseRepository.findById(id).orElse(null);
+    }
+    public StudentCourse updateStudentCourse(StudentCourse studentCourse) {
+        return studentCourseBaseRepository.save(studentCourse);
+    }
+    //--------------------------------------------------------
+
+    //----------------------StudentDirection----------------
+    public StudentDirection addStudentDirection(StudentDirection studentDirection) {
+        return studentDirectionBaseRepository.save(studentDirection);
+    }
+    public void deleteStudentDirection(Integer id) {
+        studentDirectionBaseRepository.deleteById(id);
+    }
+    public StudentDirection getStudentDirectionById(Integer id) {
+        return studentDirectionBaseRepository.findById(id).orElse(null);
+    }
+    public StudentDirection updateStudentDirection(StudentDirection studentDirection) {
+        studentDirectionBaseRepository.save(studentDirection);
+        return studentDirection;
+    }
+   //-------------------------------------------------------------
+
+    //----------------------------TeacherDirection------------
+    public TeacherDirection addTeacherDirection(TeacherDirection teacherDirection) {
+        return teacherDirectionBaseRepository.save(teacherDirection);
+    }
+    public void deleteTeacherDirection(Integer id) {
+        teacherDirectionBaseRepository.deleteById(id);
+    }
+    public TeacherDirection getTeacherDirectionById(Integer id) {
+        return teacherDirectionBaseRepository.findById(id).orElse(null) ;
+    }
+    public TeacherDirection updateTeacherDirection(TeacherDirection teacherDirection) {
+        teacherDirectionBaseRepository.save(teacherDirection);
+        return teacherDirection;
+    }
+    //------------------------------------------------------------
 
 }

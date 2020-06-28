@@ -35,10 +35,10 @@ public class TeacherService {
     @Autowired
     private PasswordEncoder encoder;
 
-   // private ArrayList<Map<Integer,Integer>> list = new ArrayList<>();
+   //    private ArrayList<Map<Integer,Integer>> list = new ArrayList<>();
 
 
-    //-----------Teacher CRD----------
+    //-----------Teacher CRUD----------
     public Teacher addTeacher(Teacher teacher) {
         return teacherBaseRepository.save(teacher);
     }
@@ -56,6 +56,16 @@ public class TeacherService {
    //指定姓名
     public List<Teacher> getTeacherByName(String name) {
         return teacherBaseRepository.findTeacherByName(name).orElse(List.of());
+    }
+    public Teacher updateTeacher(Teacher teacher,Integer id) {
+        Teacher t = getTeacherById(id);
+        t.setName(teacher.getName());
+        t.setRanges(teacher.getRanges());
+        t.setSelectNumber(teacher.getSelectNumber());
+        t.setNumber(teacher.getNumber());
+        t.setHaveSelectedNumber(teacher.getHaveSelectedNumber());
+        teacherBaseRepository.save(t);
+        return t;
     }
     //------------------------------------------
 
@@ -107,24 +117,6 @@ public class TeacherService {
     }
 
     /**
-     * 教师提前内定一个学生
-     * @param student
-     * @param tid
-     * @return
-     */
-/*
-    public Student AdvanceElected(Student student, Integer tid) {
-        if (studentService.toSelectTeacher(getTeacherById(tid), student.getId())) {
-
-            Student s = Optional.ofNullable(studentService.getStudentByNumber(student.getNumber()))
-                     .orElseGet(() -> {
-
-                     })
-        }
-    }
-
- */
-    /**
      * 获取互选成功的所有学生信息
      * @param tid
      * @return
@@ -166,7 +158,10 @@ public class TeacherService {
                      //studentBaseRepository.refresh(student);
                      return  student;
                  });
-        s.setTeacher(new Teacher(tid));
+        Teacher t = getTeacherById(tid);
+        s.setTeacher(t);
+        int num = t.getHaveSelectedNumber();
+        t.setHaveSelectedNumber(num++);
        // studentService.addStudent(s);
         //studentBaseRepository.refresh(s);
         return s;
@@ -182,5 +177,18 @@ public class TeacherService {
     }
 
  */
+
+    /**
+     * 教师提前内定一个学生
+     * @param studentNumber
+     * @param tid
+     * @return
+     */
+
+    public Student AdvanceElected(Integer studentNumber, Integer tid) {
+        Student s = studentService.getStudentByNumber(studentNumber);
+          addStudent(tid,s);
+        return s;
+    }
 
 }

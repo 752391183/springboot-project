@@ -6,9 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +35,7 @@ public class StudentService {
     private TeacherService teacherService;
 
 
-    // ---------学生CRD-----------
+    // ---------学生CRUD-----------
     public Student addStudent(Student student) {
         return studentBaseRepository.save(student);
     }
@@ -52,6 +55,11 @@ public class StudentService {
     public void deleteStudent(Integer sid) {
         studentBaseRepository.deleteById(sid);
     }
+    public Student updateStudent(Student student) {
+        studentBaseRepository.save(student);
+        return student;
+    }
+
    //------------------------------
 
     //获取全部学生
@@ -75,6 +83,38 @@ public class StudentService {
        return studentDirectionBaseRepository.listStudentByDirectionId(did).orElse(List.of());
     }
 
+    //选择方向
+    public List<Direction> choseDirection(Integer sid,List<Integer> directionIds) {
+        List<Direction> directions = new ArrayList<>();
+        for(Integer d : directionIds) {
+            StudentDirection studentDirection = new StudentDirection();
+            studentDirection.setStudent(getStudentById(sid));
+            studentDirection.setDirection(directionBaseRepository.findById(d)
+                    .orElseThrow(() ->new ResponseStatusException(HttpStatus.NOT_FOUND,"您输入的课设方向不存在"))
+            );
+            studentDirectionBaseRepository.save(studentDirection);
+            directions.add(studentDirection.getDirection());
+        }
+         return directions;
+    }
+
+    //选择老师
+    public Teacher choseTeacher(Integer sid,Integer tid) {
+        Student student = getStudentById(sid);
+        Teacher teacher = teacherService.getTeacherById(tid);
+        if (student.getTeacher()!= null) {
+            Teacher t = teacherService.getTeacherById(student.getTeacher().getId());
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN,"您已经是 "+ t.getName()+" 的学生了,不能再选择别的老师");
+        }
+        if (teacherService.preScreen(sid,teacher)!= null) {
+            student.setTeacher(teacher);
+            teacher.setHaveSelectedNumber(teacher.getHaveSelectedNumber()+1);
+            return teacher;
+        }else {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN,"当前老师人数已满");
+
+        }
+    }
     //导师
 
     //获取排名
