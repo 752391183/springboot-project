@@ -1,5 +1,6 @@
 package com.example.bosstrain.component;
 
+import com.example.bosstrain.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,8 @@ import lombok.NoArgsConstructor;
 public class MyToken {
     public static final String AUTHORIZATION = "Authorization";
     public static final String UID = "uid";
+    public static final String ROLE = "role";
     private Integer uid;
+    private Role role;
 }
 

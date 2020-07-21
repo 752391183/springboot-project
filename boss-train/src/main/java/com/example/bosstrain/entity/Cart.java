@@ -14,7 +14,6 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 public class Cart implements Serializable {
-
     //商家的Id,唯一值
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,13 +23,8 @@ public class Cart implements Serializable {
     //存储多个订单详情
     @OneToMany(mappedBy = "cart")
     private List<OrderItem> orderItemList;
-    /*@ManyToOne
-    private AllCart allCart;*/
-
-    public Cart(String sellerName) {
-        this.sellerName = sellerName;
-    }
-
+    @ManyToOne
+    private User user;
     //时间戳
     @Column(columnDefinition = "timestamp default current_timestamp",
             insertable = false,
@@ -41,4 +35,8 @@ public class Cart implements Serializable {
             insertable = false,
             updatable = false)
     private LocalDateTime updateTime;
+
+    public Cart(String sellerName) {
+        this.sellerName = sellerName;
+    }
 }

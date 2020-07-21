@@ -11,7 +11,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Data
 public class Result implements Serializable {
-
     //返回ture/false
     private boolean success;
     //返回信息

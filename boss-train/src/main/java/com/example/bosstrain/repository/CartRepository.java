@@ -13,12 +13,6 @@ import java.util.Optional;
 @Repository
 public interface CartRepository extends BaseRepository<Cart, Integer> {
 
-   /* @Query("select c.orderItemList from Cart c where c.sellerId =:id")
-    Optional<List<OrderItem>> findAllOrderItemListByCartId (@Param("id") Integer id);*/
-
-    @Query("from Cart c where c.sellerId =:id")
-    Cart findCartById(@Param("id") Integer id);
-
     @Query("from Cart c where c.sellerName =:name")
     Optional<List<Cart>> findCartByName(@Param("name") String name);
 
