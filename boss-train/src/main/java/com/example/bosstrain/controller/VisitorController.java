@@ -8,6 +8,8 @@ import com.example.bosstrain.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,5 +37,19 @@ public class VisitorController {
         List<Cart> list =  userService.addOrderItem(orderItem,cid,uid);
          return Map.of("carts",list);
      }
+
+    @DeleteMapping("delete/{oid}")
+    public Result deleteMyOrderItem(@PathVariable Integer oId) {
+        userService.deleteOrderItem(oId);
+        return new Result(true,"删除成功");
+    }
+
+    @GetMapping("orderItems/carts")
+    public Map listOrderItems(@RequestParam(value = "cid",required = false)Integer cid) {
+        List<OrderItem> myOrderItems = userService.getAllOrderItem(cid);
+        Map map = new HashMap();
+        map.put("orders",myOrderItems);
+        return map;
+    }
 
 }

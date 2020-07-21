@@ -62,6 +62,11 @@ public class UserService {
         cartRepository.deleteById(cid);
     }
 
+    //
+    public void deleteOrderItem(Integer oid) {
+        orderItemRepository.deleteById(oid);
+    }
+
     //列出该用户所有的商品
     public List<Cart> getAllCart(Integer uid) {
         List<Cart> carts = getUserById(uid).getCarts();
@@ -100,5 +105,17 @@ public class UserService {
         c.getOrderItemList().add(orderItem);
         carts.add(c);
         return carts;
+    }
+
+    //获取商品支付价格
+    public double getSumPrice(Integer uid) {
+        User u = getUserById(uid);
+        double sum = 0;
+        for (Cart c : u.getCarts()) {
+            for (OrderItem o : c.getOrderItemList()) {
+                sum = sum + o.getPrice();
+            }
+        }
+        return sum;
     }
 }

@@ -1,0 +1,37 @@
+DELETE http://localhost:8080/api/delete/1
+Content-Type: application/json
+Authorization: {{token}}
+
+###
+POST http://localhost:8080/api/add/1
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "name": "aaaa",
+  "price": 12.10,
+  "count": 10
+}
+
+###
+GET http://localhost:8080/api/orderItems/carts?id=1
+Accept: application/json
+Authorization: {{token}}
+
+###
+GET http://localhost:8080/api/visitor/carts
+Accept: application/json
+Authorization: {{token}}
+
+###
+POST http://localhost:8080/api/loggin
+Content-Type: application/json
+
+{
+  "number" : "2017",
+  "password": "2017"
+}
+
+
+> {% client.global.set("token", response.headers.valueOf("Authorization")); %}
+###

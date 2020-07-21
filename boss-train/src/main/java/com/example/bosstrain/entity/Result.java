@@ -2,7 +2,6 @@ package com.example.bosstrain.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.io.Serializable;
 
 /*
