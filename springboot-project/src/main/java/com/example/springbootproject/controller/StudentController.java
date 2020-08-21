@@ -31,6 +31,10 @@ public class StudentController {
                 "directions",courseService.listDirections()
         );
     }
+    @GetMapping("directionByTeacherId/{teacherId}")
+    public Map getDirections(@PathVariable Integer tid) {
+        return Map.of("directions",courseService.listDirectionsByTeacherId(tid));
+    }
 
     @PostMapping("directionStudent")
     public Map choseDirections(@RequestBody Map<String, List<Integer>> list) {

@@ -12,4 +12,5 @@ import java.util.Optional;
 public interface DirectionBaseRepository extends BaseRepository<Direction,Integer> {
     @Query("from Direction d where d.name =:name")
     Optional<List<Direction>> selectDirectionByName(@Param("name")String name);
+
 }

@@ -73,5 +73,6 @@ public class InitTest  {
         courseStudent.setCourse(course);
         courseStudent.setGrade(95.0F);
         studentCourseBaseRepository.save(courseStudent);
+
     }
 }
